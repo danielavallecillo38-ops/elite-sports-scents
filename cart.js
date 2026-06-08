@@ -2,7 +2,7 @@
 // ELITE SPORTS & SCENTS — Cart & PayPal
 // ============================================
 
-const PP_CLIENT_ID = 'EEFn8oUEADOHoKWqfmIGKf1eOBb1K7fts_Q5ee_lhPzZzyzD6C6DbNQyYHFKoYix4jfkYi8p3keXF1F6';
+const PP_CLIENT_ID = 'AcCIiWlwbl6OAE_7g67ILM2U6GrI8ChUWe_W_2suU8F08NrDeYyjbAvCBruKj7KcmiOqBUZiLn-Qb48n';
 const HNL_TO_USD = 0.040;
 const WA_NUMBER = '50489758866';
 
