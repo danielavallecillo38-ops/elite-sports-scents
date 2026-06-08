@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Elite Sports & Scents</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#C9A84C;--gold-l:#E8C97A;--black:#0A0A0A;--dark:#111111;--dark2:#1A1A1A;--dark3:#222222;--white:#FAFAF8;--wdim:#E8E6E0;--muted:#888880;--serif:'Cormorant Garamond',serif;--sans:'Montserrat',sans-serif;}
+body{background:var(--black);color:var(--white);font-family:var(--sans);font-weight:300;min-height:100vh;}
+
+/* LOGIN */
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.07),transparent 60%);}
+.login-box{border:1px solid rgba(201,168,76,0.25);padding:3rem 2.5rem;width:380px;text-align:center;position:relative;}
+.login-box::before{content:'ADMIN';position:absolute;top:-0.6rem;left:50%;transform:translateX(-50%);background:var(--black);padding:0 1rem;font-size:0.52rem;letter-spacing:6px;color:var(--gold);}
+.login-seal{width:60px;height:60px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;position:relative;}
+.login-seal::before{content:'';position:absolute;inset:4px;border:1px solid rgba(201,168,76,0.25);border-radius:50%;}
+.login-seal span{font-family:var(--serif);font-size:1.2rem;color:var(--gold);font-style:italic;}
+.login-title{font-family:var(--serif);font-size:1.8rem;font-weight:300;margin-bottom:0.4rem;}
+.login-title em{font-style:italic;color:var(--gold);}
+.login-sub{font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;}
+.login-input{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.15);color:var(--white);padding:12px 16px;font-family:var(--sans);font-size:0.8rem;outline:none;margin-bottom:1rem;text-align:center;letter-spacing:3px;}
+.login-input:focus{border-color:rgba(201,168,76,0.4);}
+.login-input::placeholder{color:var(--muted);letter-spacing:2px;}
+.login-btn{width:100%;background:var(--gold);color:var(--black);border:none;padding:13px;font-family:var(--sans);font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background 0.3s;}
+.login-btn:hover{background:var(--gold-l);}
+.login-error{font-size:0.7rem;color:#E24B4A;margin-top:0.8rem;display:none;}
+
+/* ADMIN PANEL */
+.admin-panel{display:none;min-height:100vh;}
+
+/* TOP BAR */
+.admin-bar{background:rgba(10,10,10,0.96);border-bottom:1px solid rgba(201,168,76,0.15);padding:14px 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
+.admin-brand{font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--gold);letter-spacing:2px;}
+.admin-brand small{display:block;font-size:0.52rem;font-weight:300;color:var(--muted);letter-spacing:3px;font-family:var(--sans);text-transform:uppercase;}
+.admin-actions{display:flex;gap:0.8rem;align-items:center;}
+.admin-logout{background:transparent;border:1px solid rgba(201,168,76,0.2);color:var(--muted);padding:7px 16px;font-family:var(--sans);font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;}
+.admin-logout:hover{border-color:var(--gold);color:var(--gold);}
+
+/* CONTENT */
+.admin-content{max-width:1200px;margin:0 auto;padding:2.5rem 2rem;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem;}
+.stat-card{border:1px solid rgba(201,168,76,0.12);padding:1.5rem;text-align:center;}
+.stat-icon{font-family:var(--serif);font-size:1.6rem;color:var(--gold);font-style:italic;display:block;margin-bottom:0.5rem;}
+.stat-num{font-family:var(--serif);font-size:2rem;font-weight:300;color:var(--white);line-height:1;}
+.stat-lbl{font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;}
+
+/* FILTERS */
+.filters{display:flex;gap:0.8rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center;}
+.filter-btn{background:transparent;border:1px solid rgba(201,168,76,0.15);color:var(--muted);padding:7px 18px;font-family:var(--sans);font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;}
+.filter-btn:hover,.filter-btn.active{border-color:var(--gold);color:var(--gold);}
+.filter-btn.active{background:rgba(201,168,76,0.08);}
+.search-input{background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.15);color:var(--white);padding:7px 14px;font-family:var(--sans);font-size:0.72rem;outline:none;width:220px;margin-left:auto;}
+.search-input:focus{border-color:rgba(201,168,76,0.4);}
+.search-input::placeholder{color:var(--muted);}
+
+/* ORDERS TABLE */
+.orders-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.orders-title{font-family:var(--serif);font-size:1.5rem;font-weight:300;color:var(--white);}
+.orders-count{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.add-demo-btn{background:transparent;border:1px solid rgba(201,168,76,0.3);color:var(--gold);padding:8px 16px;font-family:var(--sans);font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;}
+.add-demo-btn:hover{background:rgba(201,168,76,0.08);}
+
+.order-card{border:1px solid rgba(201,168,76,0.1);margin-bottom:0.8rem;transition:border-color 0.3s;}
+.order-card:hover{border-color:rgba(201,168,76,0.25);}
+.order-card.entregado{opacity:0.6;}
+.order-head{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.2rem;cursor:pointer;}
+.order-id-wrap{display:flex;align-items:center;gap:1rem;}
+.order-num{font-family:var(--serif);font-size:1rem;color:var(--gold);font-weight:400;}
+.order-date{font-size:0.62rem;color:var(--muted);letter-spacing:1px;}
+.order-client{font-size:0.78rem;color:var(--white-dim);margin-left:0.5rem;}
+.order-right{display:flex;align-items:center;gap:1rem;}
+.order-total{font-family:var(--serif);font-size:1.1rem;color:var(--gold);}
+.status-badge{font-size:0.52rem;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border:1px solid;}
+.status-badge.pendiente{border-color:rgba(234,179,8,0.4);color:#EAB308;background:rgba(234,179,8,0.08);}
+.status-badge.en-camino{border-color:rgba(59,130,246,0.4);color:#60A5FA;background:rgba(59,130,246,0.08);}
+.status-badge.entregado{border-color:rgba(34,197,94,0.4);color:#4ADE80;background:rgba(34,197,94,0.08);}
+.order-toggle{color:var(--muted);font-size:0.8rem;transition:transform 0.3s;}
+.order-card.open .order-toggle{transform:rotate(180deg);}
+
+.order-body{display:none;border-top:1px solid rgba(201,168,76,0.08);padding:1.2rem;}
+.order-card.open .order-body{display:block;}
+.order-items{margin-bottom:1rem;}
+.order-item{display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.75rem;}
+.order-item:last-child{border-bottom:none;}
+.order-item-name{color:var(--wdim);}
+.order-item-price{color:var(--gold);}
+.order-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.order-meta-item label{font-size:0.52rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:0.2rem;}
+.order-meta-item span{font-size:0.78rem;color:var(--wdim);}
+.order-actions{display:flex;gap:0.6rem;flex-wrap:wrap;}
+.action-btn{background:transparent;border:1px solid rgba(201,168,76,0.2);color:var(--muted);padding:7px 14px;font-family:var(--sans);font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;}
+.action-btn:hover{border-color:var(--gold);color:var(--gold);}
+.action-btn.pendiente-btn:hover{border-color:rgba(234,179,8,0.5);color:#EAB308;}
+.action-btn.camino-btn:hover{border-color:rgba(59,130,246,0.5);color:#60A5FA;}
+.action-btn.entregado-btn:hover{border-color:rgba(34,197,94,0.5);color:#4ADE80;}
+.action-btn.wa-btn{border-color:rgba(37,211,102,0.3);color:#25D366;}
+.action-btn.wa-btn:hover{background:rgba(37,211,102,0.08);}
+.delete-btn{margin-left:auto;border-color:rgba(226,75,74,0.2);color:var(--muted);}
+.delete-btn:hover{border-color:#E24B4A;color:#E24B4A;}
+
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--muted);}
+.empty-state span{font-family:var(--serif);font-size:3rem;color:rgba(201,168,76,0.15);display:block;margin-bottom:1rem;font-style:italic;}
+.empty-state p{font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;}
+
+/* MODAL NUEVA ORDEN */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--dark);border:1px solid rgba(201,168,76,0.25);padding:2rem;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto;}
+.modal-box h3{font-family:var(--serif);font-size:1.3rem;color:var(--gold);margin-bottom:1.5rem;}
+.form-row{margin-bottom:1rem;}
+.form-row label{font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:0.4rem;}
+.form-row input,.form-row textarea,.form-row select{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.15);color:var(--white);padding:10px 12px;font-family:var(--sans);font-size:0.76rem;outline:none;resize:none;}
+.form-row input:focus,.form-row textarea:focus,.form-row select:focus{border-color:rgba(201,168,76,0.4);}
+.form-row select option{background:var(--dark);}
+.modal-btns{display:flex;gap:0.8rem;margin-top:1.5rem;}
+.modal-save{background:var(--gold);color:var(--black);border:none;padding:11px 24px;font-family:var(--sans);font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;font-weight:600;cursor:pointer;flex:1;}
+.modal-cancel{background:transparent;border:1px solid rgba(201,168,76,0.2);color:var(--muted);padding:11px 24px;font-family:var(--sans);font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;}
+
+@media(max-width:800px){.stats-grid{grid-template-columns:repeat(2,1fr);}.order-meta{grid-template-columns:1fr 1fr;}.filters{gap:0.5rem;}.search-input{width:100%;margin-left:0;}}
+@media(max-width:500px){.stats-grid{grid-template-columns:1fr 1fr;}.order-head{flex-wrap:wrap;gap:0.5rem;}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-seal"><span>ES</span></div>
+    <h1 class="login-title">Panel de <em>Administración</em></h1>
+    <p class="login-sub">Elite Sports & Scents</p>
+    <input type="password" class="login-input" id="passInput" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Ingresar</button>
+    <p class="login-error" id="loginError">Contraseña incorrecta</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+
+  <!-- TOP BAR -->
+  <div class="admin-bar">
+    <div class="admin-brand">ELITE SPORTS & SCENTS<small>Panel de Administración</small></div>
+    <div class="admin-actions">
+      <button class="add-demo-btn" onclick="openNewOrder()">+ Agregar pedido manual</button>
+      <button class="admin-logout" onclick="doLogout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-icon">✦</span>
+        <div class="stat-num" id="statTotal">0</div>
+        <div class="stat-lbl">Pedidos Totales</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">◎</span>
+        <div class="stat-num" id="statPendiente">0</div>
+        <div class="stat-lbl">Pendientes</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">→</span>
+        <div class="stat-num" id="statCamino">0</div>
+        <div class="stat-lbl">En Camino</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">✓</span>
+        <div class="stat-num" id="statEntregado">0</div>
+        <div class="stat-lbl">Entregados</div>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters">
+      <button class="filter-btn active" onclick="setFilter('todos',this)">Todos</button>
+      <button class="filter-btn" onclick="setFilter('pendiente',this)">Pendientes</button>
+      <button class="filter-btn" onclick="setFilter('en-camino',this)">En Camino</button>
+      <button class="filter-btn" onclick="setFilter('entregado',this)">Entregados</button>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar cliente o pedido..." oninput="renderOrders()">
+    </div>
+
+    <!-- ORDERS -->
+    <div class="orders-header">
+      <div>
+        <div class="orders-title">Pedidos</div>
+        <div class="orders-count" id="ordersCount">0 pedidos</div>
+      </div>
+    </div>
+    <div id="ordersList"></div>
+
+  </div>
+</div>
+
+<!-- MODAL NUEVA ORDEN -->
+<div class="modal-overlay" id="newOrderModal">
+  <div class="modal-box">
+    <h3>Agregar Pedido Manual</h3>
+    <div class="form-row"><label>Nombre del cliente</label><input type="text" id="nCliente" placeholder="Nombre completo"></div>
+    <div class="form-row"><label>WhatsApp</label><input type="tel" id="nWA" placeholder="+504 9999-9999"></div>
+    <div class="form-row"><label>Productos pedidos</label><textarea id="nProductos" rows="3" placeholder="Ej: 1x Dior Sauvage EDP, 1x CH Bad Boy Le Parfum"></textarea></div>
+    <div class="form-row"><label>Total (Lempiras)</label><input type="number" id="nTotal" placeholder="0"></div>
+    <div class="form-row"><label>Método de pago</label>
+      <select id="nPago">
+        <option value="PayPal">PayPal</option>
+        <option value="Transferencia">Transferencia Bancaria</option>
+        <option value="Contra Entrega">Contra Entrega</option>
+      </select>
+    </div>
+    <div class="form-row"><label>Dirección de entrega</label><input type="text" id="nDir" placeholder="Ciudad, colonia, referencia"></div>
+    <div class="form-row"><label>Notas adicionales</label><textarea id="nNotas" rows="2" placeholder="Notas del pedido..."></textarea></div>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeNewOrder()">Cancelar</button>
+      <button class="modal-save" onclick="saveNewOrder()">Guardar Pedido</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ────────────────────────────────
+const ADMIN_PASS = 'elite2026';
+const WA = '50489758866';
+const STORAGE_KEY = 'ess_orders';
+let currentFilter = 'todos';
+
+// ── LOGIN ─────────────────────────────────
+function doLogin() {
+  const pass = document.getElementById('passInput').value;
+  if (pass === ADMIN_PASS) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    renderOrders();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('passInput').value = '';
+  }
+}
+
+function doLogout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('passInput').value = '';
+}
+
+// ── ORDERS STORAGE ────────────────────────
+function getOrders() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveOrders(orders) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+}
+
+function generateId() {
+  return 'ESS-' + new Date().getFullYear() + '-' + String(getOrders().length + 1).padStart(5, '0');
+}
+
+// ── FILTER ────────────────────────────────
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderOrders();
+}
+
+// ── RENDER ────────────────────────────────
+function renderOrders() {
+  const orders = getOrders();
+  const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
+
+  const filtered = orders.filter(o => {
+    const matchFilter = currentFilter === 'todos' || o.status === currentFilter;
+    const matchSearch = !search || o.cliente.toLowerCase().includes(search) || o.id.toLowerCase().includes(search);
+    return matchFilter && matchSearch;
+  }).sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+  // stats
+  document.getElementById('statTotal').textContent = orders.length;
+  document.getElementById('statPendiente').textContent = orders.filter(o => o.status === 'pendiente').length;
+  document.getElementById('statCamino').textContent = orders.filter(o => o.status === 'en-camino').length;
+  document.getElementById('statEntregado').textContent = orders.filter(o => o.status === 'entregado').length;
+  document.getElementById('ordersCount').textContent = filtered.length + ' pedido' + (filtered.length !== 1 ? 's' : '');
+
+  const list = document.getElementById('ordersList');
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty-state"><span>✦</span><p>No hay pedidos${currentFilter !== 'todos' ? ' con este filtro' : ' aún'}</p></div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(o => `
+    <div class="order-card ${o.status}" id="card-${o.id}">
+      <div class="order-head" onclick="toggleOrder('${o.id}')">
+        <div class="order-id-wrap">
+          <span class="order-num">#${o.id}</span>
+          <span class="order-client">${o.cliente}</span>
+          <span class="order-date">${formatDate(o.fecha)}</span>
+        </div>
+        <div class="order-right">
+          <span class="order-total">L. ${Number(o.total).toLocaleString('es-HN')}</span>
+          <span class="status-badge ${o.status}">${statusLabel(o.status)}</span>
+          <span class="order-toggle">▼</span>
+        </div>
+      </div>
+      <div class="order-body">
+        <div class="order-items">
+          ${o.productos.split('\n').filter(p=>p.trim()).map(p=>`
+            <div class="order-item">
+              <span class="order-item-name">${p}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="order-meta">
+          <div class="order-meta-item"><label>Método de pago</label><span>${o.pago || '—'}</span></div>
+          <div class="order-meta-item"><label>WhatsApp</label><span>${o.wa || '—'}</span></div>
+          <div class="order-meta-item"><label>Dirección</label><span>${o.direccion || '—'}</span></div>
+          ${o.notas ? `<div class="order-meta-item" style="grid-column:1/-1"><label>Notas</label><span>${o.notas}</span></div>` : ''}
+          ${o.paypalId ? `<div class="order-meta-item"><label>ID PayPal</label><span style="font-size:0.65rem;">${o.paypalId}</span></div>` : ''}
+        </div>
+        <div class="order-actions">
+          <button class="action-btn pendiente-btn" onclick="updateStatus('${o.id}','pendiente')">◎ Pendiente</button>
+          <button class="action-btn camino-btn" onclick="updateStatus('${o.id}','en-camino')">→ En Camino</button>
+          <button class="action-btn entregado-btn" onclick="updateStatus('${o.id}','entregado')">✓ Entregado</button>
+          ${o.wa ? `<button class="action-btn wa-btn" onclick="contactWA('${o.wa}','${o.id}')">WhatsApp</button>` : ''}
+          <button class="action-btn delete-btn" onclick="deleteOrder('${o.id}')">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleOrder(id) {
+  const card = document.getElementById('card-' + id);
+  card.classList.toggle('open');
+}
+
+function statusLabel(s) {
+  return s === 'pendiente' ? 'Pendiente' : s === 'en-camino' ? 'En Camino' : 'Entregado';
+}
+
+function formatDate(d) {
+  return new Date(d).toLocaleDateString('es-HN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+// ── ACTIONS ───────────────────────────────
+function updateStatus(id, status) {
+  const orders = getOrders();
+  const o = orders.find(x => x.id === id);
+  if (o) { o.status = status; saveOrders(orders); renderOrders(); }
+}
+
+function deleteOrder(id) {
+  if (!confirm('¿Eliminar este pedido?')) return;
+  const orders = getOrders().filter(o => o.id !== id);
+  saveOrders(orders); renderOrders();
+}
+
+function contactWA(wa, id) {
+  const clean = wa.replace(/\D/g, '');
+  const msg = `Hola! Te contactamos de Elite Sports & Scents sobre tu pedido #${id}. ¿Todo listo para coordinar la entrega?`;
+  window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ── NUEVA ORDEN MANUAL ────────────────────
+function openNewOrder() {
+  document.getElementById('newOrderModal').classList.add('open');
+}
+
+function closeNewOrder() {
+  document.getElementById('newOrderModal').classList.remove('open');
+}
+
+function saveNewOrder() {
+  const cliente = document.getElementById('nCliente').value.trim();
+  const wa = document.getElementById('nWA').value.trim();
+  const productos = document.getElementById('nProductos').value.trim();
+  const total = document.getElementById('nTotal').value;
+  const pago = document.getElementById('nPago').value;
+  const dir = document.getElementById('nDir').value.trim();
+  const notas = document.getElementById('nNotas').value.trim();
+
+  if (!cliente || !productos || !total) {
+    alert('Por favor completa al menos: cliente, productos y total.');
+    return;
+  }
+
+  const orders = getOrders();
+  orders.push({
+    id: generateId(),
+    cliente, wa, productos, total: Number(total),
+    pago, direccion: dir, notas,
+    status: 'pendiente',
+    fecha: new Date().toISOString(),
+    source: 'manual'
+  });
+  saveOrders(orders);
+  closeNewOrder();
+  renderOrders();
+
+  // clear form
+  ['nCliente','nWA','nProductos','nTotal','nDir','nNotas'].forEach(id => document.getElementById(id).value = '');
+}
+
+// ── RECEIVE PAYPAL ORDER (called from main site) ──
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === 'ESS_NEW_ORDER') {
+    const orders = getOrders();
+    orders.push({ ...e.data.order, status: 'pendiente', fecha: new Date().toISOString() });
+    saveOrders(orders);
+  }
+});
+
+// ── KEYBOARD ──────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeNewOrder();
+});
+</script>
+</body>
+</html>
