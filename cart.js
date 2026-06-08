@@ -131,11 +131,12 @@ function loadPayPal(totalHNL) {
     return;
   }
 
-  if (ppLoaded) return;
-  ppLoaded = true;
+if (ppLoaded) return;
+ppLoaded = true;
 
-  const script = document.createElement('script');
-  script.src = `https://www.paypal.com/sdk/js?client-id=${PP_CLIENT_ID}&currency=USD`;
+const script = document.createElement('script');
+script.setAttribute('data-sdk-integration-source', 'button-factory');
+script.src = `https://www.paypal.com/sdk/js?client-id=${PP_CLIENT_ID}&currency=USD&components=buttons`;
   script.onload = () => renderPayPalBtn(amountUSD, totalHNL);
   script.onerror = () => {
     ppLoaded = false;
