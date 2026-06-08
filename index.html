@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -41,11 +41,22 @@
 <!-- SUCCESS MODAL -->
 <div class="success-modal" id="successModal">
   <div class="success-box">
-    <span class="success-icon">✦</span>
-    <h3>¡Pago Exitoso!</h3>
-    <p>Tu pedido ha sido confirmado. Nos comunicaremos contigo por WhatsApp para coordinar la entrega.</p>
-    <p class="success-wa">WhatsApp: +504 8975-8866</p>
-    <button onclick="closeSuccess()">Cerrar</button>
+    <div class="success-corners">
+      <span class="sc tl"></span><span class="sc tr"></span>
+      <span class="sc bl"></span><span class="sc br"></span>
+    </div>
+    <div class="success-seal"><span>ES</span></div>
+    <span class="success-tag">Confirmación de pedido</span>
+    <h3 class="success-title">Gracias por tu<br><em>confianza</em></h3>
+    <div class="success-divider"></div>
+    <p class="success-quote">"Has elegido la excelencia.<br>Tu pedido ha sido recibido<br>y está en las mejores manos."</p>
+    <p class="success-sub">Un asesor de Elite Sports & Scents<br>se comunicará contigo en breve</p>
+    <div class="success-order-tag">
+      <span class="success-order-label">Número de pedido</span>
+      <span class="success-order-id" id="successOrderId">#ESS-2026</span>
+    </div>
+    <button class="success-wa-btn" onclick="closeSuccess()">Cerrar</button>
+    <p class="success-footer">Elite Sports & Scents · Honduras · 2026</p>
   </div>
 </div>
 
@@ -339,8 +350,8 @@
 <!-- WA FLOAT -->
 <a href="https://wa.me/50489758866?text=Bienvenido(a)%20a%20Elite%20Sports%20%26%20Scents." target="_blank" class="wa-float">W</a>
 
-<script src="products.js"></script>
-<script src="cart.js"></script>
-<script src="main.js"></script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

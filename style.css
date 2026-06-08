@@ -90,14 +90,31 @@ section { padding: 90px 0; }
 .cart-wa-btn:hover { border-color: var(--gold); color: var(--gold); }
 
 /* SUCCESS MODAL */
-.success-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 3000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.success-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 3000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
 .success-modal.open { opacity: 1; pointer-events: all; }
-.success-box { background: var(--dark); border: 1px solid rgba(201,168,76,0.28); padding: 2.8rem; max-width: 420px; width: 90%; text-align: center; }
-.success-icon { font-family: var(--serif); font-size: 2.8rem; color: var(--gold); font-style: italic; display: block; margin-bottom: 0.8rem; }
-.success-box h3 { font-family: var(--serif); font-size: 1.7rem; font-weight: 300; margin-bottom: 0.7rem; }
-.success-box p { font-size: 0.74rem; color: var(--muted); line-height: 1.9; margin-bottom: 0.8rem; }
-.success-wa { color: var(--gold) !important; font-size: 0.7rem !important; letter-spacing: 2px; }
-.success-box button { background: var(--gold); color: var(--black); border: none; padding: 11px 28px; font-family: var(--sans); font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; margin-top: 0.5rem; }
+.success-box { background: #111; border: 1px solid rgba(201,168,76,0.3); max-width: 440px; width: 92%; padding: 3rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+.success-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #C9A84C, transparent); }
+.success-box::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #C9A84C, transparent); }
+.success-corners .sc { position: absolute; width: 16px; height: 16px; border-color: var(--gold); border-style: solid; opacity: 0.5; }
+.success-corners .sc.tl { top: 12px; left: 12px; border-width: 1px 0 0 1px; }
+.success-corners .sc.tr { top: 12px; right: 12px; border-width: 1px 1px 0 0; }
+.success-corners .sc.bl { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; }
+.success-corners .sc.br { bottom: 12px; right: 12px; border-width: 0 1px 1px 0; }
+.success-seal { width: 66px; height: 66px; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.4rem; position: relative; }
+.success-seal::before { content: ''; position: absolute; inset: 4px; border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; }
+.success-seal span { font-family: var(--serif); font-size: 1.3rem; color: var(--gold); font-style: italic; }
+.success-tag { font-size: 0.52rem; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.7rem; display: block; }
+.success-title { font-family: var(--serif); font-size: 1.9rem; font-weight: 300; color: var(--white); margin-bottom: 0; line-height: 1.2; }
+.success-title em { font-style: italic; color: var(--gold); }
+.success-divider { width: 38px; height: 1px; background: var(--gold); margin: 1.1rem auto; }
+.success-quote { font-family: var(--serif); font-size: 1rem; font-weight: 300; color: var(--white-dim); line-height: 1.9; margin-bottom: 0.5rem; font-style: italic; }
+.success-sub { font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; line-height: 1.9; }
+.success-order-tag { background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.2); padding: 0.6rem 1.2rem; margin-bottom: 1.5rem; display: inline-block; }
+.success-order-label { font-size: 0.5rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.2rem; }
+.success-order-id { font-family: var(--serif); font-size: 0.95rem; color: var(--white); letter-spacing: 1px; }
+.success-wa-btn { background: transparent; color: var(--gold); border: 1px solid rgba(201,168,76,0.3); padding: 11px 32px; font-family: var(--sans); font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; display: block; width: 100%; margin-bottom: 0; transition: all 0.3s; }
+.success-wa-btn:hover { background: rgba(201,168,76,0.08); }
+.success-footer { font-size: 0.5rem; color: rgba(136,136,128,0.5); letter-spacing: 2px; text-transform: uppercase; margin-top: 1.3rem; }
 
 /* ==========================================
    NAVIGATION
